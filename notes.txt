@@ -1,0 +1,28 @@
+0. Useful notions
+- V2G --> discharging vehicle batteries to the power grid.
+- Formulated the global optimization problem, but impractical since it requires information from the future
+
+1. Objectives
+- Optimize scheduling for charging and discharging of eletric vehicles.
+- Optimal EV charging patterns could reduce potential capital costs and minimize operational costs.
+
+2. Decision variables
+- M, charging and discharging performed during the day --> M^{CHG} + M^{v2G}, where the first one are the charging only, and the second one provide electricity to the grid.
+- 
+
+3. Principal constraints
+- Find out the globally optimal scheduling solution which can minimize the overall charging cost.
+- Difficult to find out the best scheduling solution for large EV population.
+- Scheduling scheme should have the capacity to efficiently handle the random arrivals of the EVs.
+- 
+
+4. Assumptions
+- Best way could be to charge EV battery when the demand is low and discharge the EV battery to the grid when the demand is high. 
+- The losses between nodes are small.
+- There is no congestion in trasmission.
+- Working in a small geographical area.
+- Neglect the spatial variation of the electricity prices.
+- P^{max} all the vehicles have the same max charging power.
+- We have historical data.
+
+5. Optimization method
