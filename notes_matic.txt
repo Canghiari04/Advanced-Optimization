@@ -1,0 +1,43 @@
+Problem
+- Schedule EV charging + V2G discharging in a microgrid over 1 day (24 x 1 h)
+- Goal: minimise total electricity cost
+- Price rises with load: g(z) = k0 + k1*z
+- Cost per hour = price integrated from base load to total load (quadratic)
+- Result: charge in low-demand hours, discharge at peaks (valley filling)
+
+Variables
+- x_mi = power of EV m in hour i (+ charge, - discharge)
+- z_i = total load in hour i
+- 200 EVs x 24 h + 24 = 4824 variables
+
+Constraints
+- (5b) total load = base load + EV power
+- (5c) battery between empty and full every hour
+- (5d) EV leaves with >= 90% charge
+- (5e) charging-only EVs: 0 <= x <= Pmax
+- (5f) V2G EVs: -Pmax <= x <= Pmax
+
+Method
+- Quadratic objective + linear constraints = convex QP
+- Solved with CVX (interior point)
+- Global scheme: knows whole day, solved once -> benchmark, not practical
+- Local scheme: per group, re-solved every hour with forecasts (like MPC) -> practical
+- Extension: battery wear cost (beta*x^2 + eta*dx^2), still convex
+
+Results (200 EVs, 16 kWh, Pmax = 5 kW)
+- Global 237.26 C$, Local 240.52 C$, Equal allocation 261.88 C$
+- Savings 9.4% (global), 8.2% (local)
+- Local only 1.4% worse than global
+- Gap shrinks with bigger groups + better forecasts
+
+Strengths
+- Clear, convex, globally optimal
+- Local scheme is scalable and realistic
+
+Weaknesses
+- Groups don't coordinate -> new peaks with small groups
+- No battery losses; V2G free without wear term
+- Only system cost, no user fairness
+- No grid/feeder limits
+- Assumes known departure times
+- Single scenario, no statistics
